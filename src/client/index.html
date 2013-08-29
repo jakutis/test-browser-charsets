@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>test-browser-charsets</title>
+    </head>
+    <body>
+        <script>
+            if(typeof JSON === 'undefined') {
+                document.write('<' + 'script src="/json2.js"><' + '/script>');
+            }
+        </script>
+        <script src="/script.js"></script>
+        <p id="status">loading</p>
+    </body>
+</html>

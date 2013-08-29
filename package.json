@@ -1,0 +1,18 @@
+{
+  "name": "test-browser-charsets",
+  "version": "0.0.0",
+  "description": "Find out which web browsers recognize Byte Order Marks in XMLHttpRequest.responseText with which XMLHttpRequest.overrideMimeType argument.",
+  "main": "src/server/index.js",
+  "scripts": {
+    "test": "true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jakutis/test-browser-charsets"
+  },
+  "author": "Vytautas Jakutis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jakutis/test-browser-charsets/issues"
+  }
+}
