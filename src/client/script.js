@@ -151,21 +151,12 @@
         xhr.send(data);
     };
     window.request = request;
-    var requestBinaryTest = function(dataName, cb) {
-        request('/data/' + dataName, 'GET', 'application/octet-stream', null, function(err, output) {
+    var requestMimeTypeTest = function(dataName, mimeType, cb) {
+        request('/data/' + dataName, 'GET', mimeType, null, function(err, output) {
             if(err) {
                 return cb(err);
             }
-            var bytes = stringToBytes(output);
-            cb(null, arraysEqual(expectedBytes[dataName], bytes));
-        });
-    };
-    var requestCharsetTest = function(dataName, charset, cb) {
-        request('/data/' + dataName, 'GET', 'text/plain; charset=' + charset, null, function(err, output) {
-            if(err) {
-                return cb(err);
-            }
-            var bytes = (typeof indexes[charset] === 'undefined') ? stringToBytes(output) : singleByteEncodedStringToBytes(indexes[charset], output);
+            var bytes = (typeof indexes[mimeType] === 'undefined') ? stringToBytes(output) : singleByteEncodedStringToBytes(indexes[mimeType], output);
             cb(null, arraysEqual(expectedBytes[dataName], bytes));
         });
     };
@@ -193,40 +184,40 @@
             cb(null, JSON.parse(output));
         });
     };
-    var charsets = (function() {
-        var charsets = ['x-user-defined'];
-        for(var index in indexes) {
-            if(indexes.hasOwnProperty(index)) {
-                charsets.push(index);
+    var charsets = ['x-user-defined'];
+    (function() {
+        var indexesByMimeType = {};
+        for(var charset in indexes) {
+            if(indexes.hasOwnProperty(charset)) {
+                charsets.push(charset);
+                indexesByMimeType['text/plain; charset=' + charset] = indexes[charset];
             }
         }
-        return charsets;
+        indexes = indexesByMimeType;
     })();
     var requestTests = function(dataName, cb) {
-        var charsetI = 0;
         var result = {
-            xhr2: typeof new XMLHttpRequest().response !== 'undefined'
+            XMLHttpRequest2: typeof new XMLHttpRequest().response !== 'undefined'
         };
+        var mimeTypes = ['application/octet-stream'];
+        for(var i = 0; i < charsets.length; i += 1) {
+            mimeTypes.push('text/plain; charset=' + charsets[i]);
+        }
+        var mimeTypeI = 0;
         var next = function() {
-            if(charsetI >= charsets.length) {
+            if(mimeTypeI >= mimeTypes.length) {
                 return cb(null, result);
             }
-            requestCharsetTest(dataName, charsets[charsetI], function(err, ok) {
+            requestMimeTypeTest(dataName, mimeTypes[mimeTypeI], function(err, ok) {
                 if(err) {
                     return cb(err);
                 }
-                result[charsets[charsetI]] = ok;
-                charsetI += 1;
+                result[mimeTypes[mimeTypeI]] = ok;
+                mimeTypeI += 1;
                 setTimeout(next, 0);
             });
         };
-        requestBinaryTest(dataName, function(err, ok) {
-            if(err) {
-                return cb(err);
-            }
-            result.binary = ok;
-            setTimeout(next, 0);
-        });
+        next();
     };
     var displayStatus = function(status) {
         var statusEl = document.getElementById('status');
