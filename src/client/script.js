@@ -54,17 +54,14 @@
     };
     var arraysEqual = function(a, b) {
         if(a.length !== b.length) {
-            console.log('arraysEqual', 'lengths', a.length, b.length, a[a.length], b[b.length]);
             return false;
         }
-        var equal = true;
         for(var i = 0; i < a.length; i += 1) {
             if(a[i] !== b[i]) {
-                equal = false;
-                console.log('arraysEqual', 'byte', i, a[i], b[i]);
+                return false;
             }
         }
-        return equal;
+        return true;
     };
     var expectedBytes = (function() {
         var names = [];
@@ -140,20 +137,7 @@
             }
             cb = null;
         };
-        xhr.onload = function(progress) {
-            console.log(url, progress, progress && progress.loaded);
-            onload();
-        };
-        if(typeof xhr.onprogress !== 'undefined') {
-            xhr.onprogress = function(progress) {
-                console.log(url, progress, progress && progress.loaded);
-            };
-        }
-        if(typeof xhr.onloadend !== 'undefined') {
-            xhr.onloadend = function(progress) {
-                console.log(url, progress, progress && progress.loaded);
-            };
-        }
+        xhr.onload = onload;
         xhr.onreadystatechange = function() {
             if(xhr.readyState === 4) {
                 onload();
@@ -173,7 +157,6 @@
                 return cb(err);
             }
             var bytes = stringToBytes(output);
-            console.log('bytes', dataName, 'binary', bytes);
             cb(null, arraysEqual(expectedBytes[dataName], bytes));
         });
     };
@@ -183,7 +166,6 @@
                 return cb(err);
             }
             var bytes = (typeof indexes[charset] === 'undefined') ? stringToBytes(output) : singleByteEncodedStringToBytes(indexes[charset], output);
-            console.log('bytes', dataName, charset, bytes);
             cb(null, arraysEqual(expectedBytes[dataName], bytes));
         });
     };
@@ -254,7 +236,7 @@
         if(results.length === 0) {
             return;
         }
-        displayStatus('finished successfully');
+        displayStatus('finished successfully, showing which byte-order marks forced were parsed (files with that BOM byte sequence will have mangled responseText).');
         var i, j;
         var resultsEl = document.createElement('table');
         var theadEl = document.createElement('thead');
