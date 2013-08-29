@@ -236,7 +236,7 @@
         if(results.length === 0) {
             return;
         }
-        displayStatus('finished successfully, showing which byte-order marks forced were parsed (files with that BOM byte sequence will have mangled responseText).');
+        displayStatus('finished successfully');
         var i, j;
         var resultsEl = document.createElement('table');
         var theadEl = document.createElement('thead');
