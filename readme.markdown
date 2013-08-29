@@ -17,7 +17,7 @@ Client is plain JavaScript.
 No dependencies are needed, except a working installation of [NodeJS](http://nodejs.org).
 Tested on v0.10.x.
 
-    node src/server
+    node .
 
 ## Conclusions
 
