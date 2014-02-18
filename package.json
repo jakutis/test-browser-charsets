@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Find out which web browsers recognize Byte Order Marks in XMLHttpRequest.responseText with which XMLHttpRequest.overrideMimeType argument.",
   "main": "src/server/index.js",
+  "bin": "cli.js",
   "scripts": {
     "test": "true"
   },
