@@ -1,6 +1,6 @@
 {
   "name": "test-browser-charsets",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Find out which web browsers recognize Byte Order Marks in XMLHttpRequest.responseText with which XMLHttpRequest.overrideMimeType argument.",
   "main": "src/server/index.js",
   "bin": "cli.js",
