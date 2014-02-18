@@ -11,9 +11,8 @@
     "type": "git",
     "url": "https://github.com/jakutis/test-browser-charsets"
   },
-  "author": "Vytautas Jakutis",
+  "author": "Vytautas Jakutis <vytautas@jakut.is> (https://jakut.is)",
+  "homepage": "https://www.npmjs.org/package/test-browser-charsets",
   "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/jakutis/test-browser-charsets/issues"
-  }
+  "bugs": "https://github.com/jakutis/test-browser-charsets/issues"
 }
